@@ -1,4 +1,4 @@
-# Job Applicants Management System
+# Job Applicants App - Exam Submission README Instructions
 
 ## Features
 
@@ -6,7 +6,6 @@
 - Dynamic PSGC (Philippine Standard Geographic Code) integration
 - DATA TABLES
 - User authentication and authorization
-- Pagination and dynamic row display options
 - Advanced filtering capabilities
 
 ## Tech Stack
@@ -27,44 +26,37 @@
 ## Installation
 
 1. Clone the repository:
-```bash
-git clone <your-repository-url>
+```
+git clone git@github.com:stolenfallen1/JobApplicantsApp.git
 cd job_applicants_app
-
+```
 2. Install PHP dependencies:
-```bash
+```
 composer install
-
+```
 3. Install JavaScript dependencies:
-```bash
+```
 npm install
-
+```
 4. Create a .env file by copying the .env.example file:
-```bash
+```
 cp .env.example .env
-
+```
 5. Generate an application key:
-```bash
+```
 php artisan key:generate
-
+```
 6. Database Setup: 
-Option A - Using Laravel Migrations with Seeders:
-```bash
-# Create the database
-mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS JobApplicant;"
-
-# Configure your .env file with database credentials
-# Then run migrations and seeders
+Configure your .env file with database credentials ( copy the .env.example )
+Then run migrations and seeders
+```
 php artisan migrate:fresh --seed
 ```
-
-( Option 3 - Using Table Plus )
-Import connection file from: database/dumps/tableplus_connection_dump_march_7_2025.tableplusconnection
-
 7. Run database migrations:
-```bash
+```
 php artisan migrate
-
+```
 8. Start the development server:
-```bash
+```
 composer run dev
+```
