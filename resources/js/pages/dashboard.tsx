@@ -27,8 +27,8 @@ export default function Dashboard({ applicants }: PageProps) {
             <h2 className="text-xl font-semibold">Job Applicants</h2>
             <Link href="/applicants/create">
                 <Button className="cursor-pointer">
-                <Plus className="mr-2 h-4 w-4" />
-                Add Applicant
+                    <Plus className="mr-2 h-4 w-4" />
+                    Add Applicant
                 </Button>
             </Link>
             </div>

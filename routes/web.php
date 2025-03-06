@@ -18,6 +18,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('applicants', [JobApplicantController::class, 'store'])
         ->name('applicants.store');
 
+    Route::get('applicants/{applicant}/edit', [JobApplicantController::class, 'edit'])
+        ->name('applicants.edit');
+
+    Route::put('applicants/{applicant}', [JobApplicantController::class, 'update'])
+        ->name('applicants.update');        
+
     Route::delete('applicants/{applicant}', [JobApplicantController::class, 'destroy'])
         ->name('applicants.destroy');
 });

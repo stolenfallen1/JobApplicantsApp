@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class JobApplicants extends Model
 {
-    //
     protected $fillable = [
         'region',
         'province',
