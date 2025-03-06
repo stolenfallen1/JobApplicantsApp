@@ -105,7 +105,6 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                         )}
 
                         <div className="flex items-center gap-4">
-                            <Button disabled={processing}>Save</Button>
 
                             <Transition
                                 show={recentlySuccessful}
@@ -120,7 +119,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                     </form>
                 </div>
 
-                <DeleteUser />
+                {/* <DeleteUser /> */}
             </SettingsLayout>
         </AppLayout>
     );

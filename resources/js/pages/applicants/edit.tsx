@@ -62,6 +62,7 @@ export default function EditApplicant({ applicant }: Props) {
 
     function handleSubmit(e: FormEvent) {
         e.preventDefault();
+        alert('Applicant updated successfully');
         put(route('applicants.update', applicant.id));
     }
 

@@ -49,6 +49,7 @@ export default function CreateApplicant() {
         e.preventDefault();
         post(route('applicants.store'), {
             onSuccess: () => {
+                alert('Applicant added successfully!');
                 window.location.href = route('dashboard');
             },
         });
@@ -243,6 +244,7 @@ export default function CreateApplicant() {
                             <Input 
                                 id="age"
                                 type="number"
+                                max={100}
                                 value={data.age}
                                 onChange={e => setData('age', e.target.value)}
                                 required 
