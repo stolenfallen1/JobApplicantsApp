@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { Head, useForm } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/select";
 import AppLayout from '@/layouts/app-layout';
 import type { PSGCRegion, PSGCProvince, PSGCCity } from '@/types/psgc';
+import { Link } from '@inertiajs/react';
+import InputError from '@/components/input-error';
 
 const breadcrumbs = [
     {
@@ -30,7 +32,7 @@ export default function CreateApplicant() {
     const [cities, setCities] = useState<PSGCCity[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
-    const { data, setData, post, processing } = useForm({
+    const { data, setData, post, processing, errors } = useForm({
         region: '',
         province: '',
         city: '',
@@ -42,6 +44,15 @@ export default function CreateApplicant() {
         marital_status: '',
         course: '',
     });
+
+    function handleSubmit(e: FormEvent) {
+        e.preventDefault();
+        post(route('applicants.store'), {
+            onSuccess: () => {
+                window.location.href = route('dashboard');
+            },
+        });
+    }
 
     useEffect(() => {
         fetchRegions();
@@ -108,7 +119,7 @@ export default function CreateApplicant() {
             <div className="p-6">
                 <h2 className="text-xl font-semibold mb-6">Add New Applicant</h2>
                 
-                <form className="space-y-6">
+                <form className="space-y-6" onSubmit={handleSubmit}>
                     <div className="grid grid-cols-3 gap-4">
                         <div className="space-y-2">
                             <Label htmlFor="region">Region</Label>
@@ -128,6 +139,7 @@ export default function CreateApplicant() {
                                     ))}
                                 </SelectContent>
                             </Select>
+                            <InputError message={errors.region} />
                         </div>
                         
                         <div className="space-y-2">
@@ -148,6 +160,7 @@ export default function CreateApplicant() {
                                     ))}
                                 </SelectContent>
                             </Select>
+                            <InputError message={errors.province} />
                         </div>
                         
                         <div className="space-y-2">
@@ -168,30 +181,52 @@ export default function CreateApplicant() {
                                     ))}
                                 </SelectContent>
                             </Select>
+                            <InputError message={errors.city} />
                         </div>
                     </div>
 
                     <div className="grid grid-cols-3 gap-4">
                         <div className="space-y-2">
                             <Label htmlFor="lastName">Last Name</Label>
-                            <Input id="lastName" name="last_name" required />
+                            <Input 
+                                id="lastName"
+                                value={data.last_name}
+                                onChange={e => setData('last_name', e.target.value)}
+                                required 
+                            />
+                            <InputError message={errors.last_name} />
                         </div>
                         
                         <div className="space-y-2">
                             <Label htmlFor="firstName">First Name</Label>
-                            <Input id="firstName" name="first_name" required />
+                            <Input 
+                                id="firstName"
+                                value={data.first_name}
+                                onChange={e => setData('first_name', e.target.value)}
+                                required 
+                            />
+                            <InputError message={errors.first_name} />
                         </div>
                         
                         <div className="space-y-2">
                             <Label htmlFor="middleName">Middle Name</Label>
-                            <Input id="middleName" name="middle_name" required />
+                            <Input 
+                                id="middleName"
+                                value={data.middle_name}
+                                onChange={e => setData('middle_name', e.target.value)}
+                                required 
+                            />
+                            <InputError message={errors.middle_name} />
                         </div>
                     </div>
 
                     <div className="grid grid-cols-3 gap-4">
                         <div className="space-y-2">
                             <Label htmlFor="sex">Sex</Label>
-                            <Select name="sex">
+                            <Select
+                                value={data.sex}
+                                onValueChange={(value) => setData('sex', value)}
+                            >
                                 <SelectTrigger>
                                     <SelectValue placeholder="Select sex" />
                                 </SelectTrigger>
@@ -200,16 +235,27 @@ export default function CreateApplicant() {
                                     <SelectItem value="female">Female</SelectItem>
                                 </SelectContent>
                             </Select>
+                            <InputError message={errors.sex} />
                         </div>
                         
                         <div className="space-y-2">
                             <Label htmlFor="age">Age</Label>
-                            <Input id="age" name="age" type="number" required />
+                            <Input 
+                                id="age"
+                                type="number"
+                                value={data.age}
+                                onChange={e => setData('age', e.target.value)}
+                                required 
+                            />
+                            <InputError message={errors.age} />
                         </div>
                         
                         <div className="space-y-2">
                             <Label htmlFor="maritalStatus">Marital Status</Label>
-                            <Select name="marital_status">
+                            <Select
+                                value={data.marital_status}
+                                onValueChange={(value) => setData('marital_status', value)}
+                            >
                                 <SelectTrigger>
                                     <SelectValue placeholder="Select status" />
                                 </SelectTrigger>
@@ -220,17 +266,26 @@ export default function CreateApplicant() {
                                     <SelectItem value="divorced">Divorced</SelectItem>
                                 </SelectContent>
                             </Select>
+                            <InputError message={errors.marital_status} />
                         </div>
                     </div>
 
                     <div className="space-y-2">
                         <Label htmlFor="course">Course</Label>
-                        <Input id="course" name="course" required />
+                        <Input 
+                            id="course"
+                            value={data.course}
+                            onChange={e => setData('course', e.target.value)}
+                            required 
+                        />
+                        <InputError message={errors.course} />
                     </div>
 
                     <div className="flex justify-end gap-4">
-                        <Button variant="outline" type="button">Cancel</Button>
-                        <Button type="submit">Save Applicant</Button>
+                        <Link href="/dashboard">
+                            <Button className="cursor-pointer" variant="outline" type="button">Cancel</Button>
+                        </Link>
+                        <Button className="cursor-pointer" type="submit">Save Applicant</Button>
                     </div>
                 </form>
             </div>

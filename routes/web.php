@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Applicants\JobApplicantController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -8,13 +9,17 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
-    })->name('dashboard');
+    Route::get('dashboard', [JobApplicantController::class, 'index'])
+        ->name('dashboard');
 
-    Route::get('applicants/create', function() {
-        return Inertia::render('applicants/create');
-    })->name('applicants.create');
+    Route::get('applicants/create', [JobApplicantController::class, 'create'])
+        ->name('applicants.create');
+
+    Route::post('applicants', [JobApplicantController::class, 'store'])
+        ->name('applicants.store');
+
+    Route::delete('applicants/{applicant}', [JobApplicantController::class, 'destroy'])
+        ->name('applicants.destroy');
 });
 
 require __DIR__.'/settings.php';
