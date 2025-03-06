@@ -1,6 +1,6 @@
+import { useState, FormEventHandler } from 'react';
 import { Head, useForm } from '@inertiajs/react';
-import { LoaderCircle } from 'lucide-react';
-import { FormEventHandler } from 'react';
+import { Eye, EyeOff, LoaderCircle } from 'lucide-react';
 
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
@@ -17,6 +17,9 @@ type RegisterForm = {
 };
 
 export default function Register() {
+    const [isVisiblePassword, setIsVisiblePassword] = useState(false);
+    const [isVisibleConfirmPassword, setIsVisibleConfirmPassword] = useState(false);
+    
     const { data, setData, post, processing, errors, reset } = useForm<Required<RegisterForm>>({
         name: '',
         email: '',
@@ -71,33 +74,59 @@ export default function Register() {
 
                     <div className="grid gap-2">
                         <Label htmlFor="password">Password</Label>
-                        <Input
-                            id="password"
-                            type="password"
-                            required
-                            tabIndex={3}
-                            autoComplete="new-password"
-                            value={data.password}
-                            onChange={(e) => setData('password', e.target.value)}
-                            disabled={processing}
-                            placeholder="Password"
-                        />
+                        <div className="relative">
+                            <Input
+                                id="password"
+                                type={isVisiblePassword ? "text" : "password"}
+                                required
+                                tabIndex={3}
+                                autoComplete="new-password"
+                                value={data.password}
+                                onChange={(e) => setData('password', e.target.value)}
+                                disabled={processing}
+                                placeholder="Password"
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setIsVisiblePassword(!isVisiblePassword)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2"
+                            >
+                                {isVisiblePassword ? (
+                                    <EyeOff className="h-4 w-4 text-gray-500" />
+                                ) : (
+                                    <Eye className="h-4 w-4 text-gray-500" />
+                                )}
+                            </button>
+                        </div>
                         <InputError message={errors.password} />
                     </div>
 
                     <div className="grid gap-2">
                         <Label htmlFor="password_confirmation">Confirm password</Label>
-                        <Input
-                            id="password_confirmation"
-                            type="password"
-                            required
-                            tabIndex={4}
-                            autoComplete="new-password"
-                            value={data.password_confirmation}
-                            onChange={(e) => setData('password_confirmation', e.target.value)}
-                            disabled={processing}
-                            placeholder="Confirm password"
-                        />
+                        <div className="relative">
+                            <Input
+                                id="password_confirmation"
+                                type={isVisibleConfirmPassword ? "text" : "password"}
+                                required
+                                tabIndex={4}
+                                autoComplete="new-password"
+                                value={data.password_confirmation}
+                                onChange={(e) => setData('password_confirmation', e.target.value)}
+                                disabled={processing}
+                                placeholder="Confirm password"
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setIsVisibleConfirmPassword(!isVisibleConfirmPassword)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2"
+                            >
+                                {isVisibleConfirmPassword ? (
+                                    <EyeOff className="h-4 w-4 text-gray-500" />
+                                ) : (
+                                    <Eye className="h-4 w-4 text-gray-500" />
+                                )}
+                            </button>
+                        </div>
                         <InputError message={errors.password_confirmation} />
                     </div>
 

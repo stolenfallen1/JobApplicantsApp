@@ -1,11 +1,10 @@
+import { useState, FormEventHandler } from 'react';
 import { Head, useForm } from '@inertiajs/react';
-import { LoaderCircle } from 'lucide-react';
-import { FormEventHandler } from 'react';
+import { LoaderCircle, Eye, EyeOff } from 'lucide-react';
 
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth-layout';
@@ -26,6 +25,7 @@ export default function Login({ status }: LoginProps) {
         password: '',
         remember: false,
     });
+    const [isVisiblePassword, setIsVisiblePassword] = useState(false);
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -60,28 +60,30 @@ export default function Login({ status }: LoginProps) {
                         <div className="flex items-center">
                             <Label htmlFor="password">Password</Label>
                         </div>
-                        <Input
-                            id="password"
-                            type="password"
-                            required
-                            tabIndex={2}
-                            autoComplete="current-password"
-                            value={data.password}
-                            onChange={(e) => setData('password', e.target.value)}
-                            placeholder="Password"
-                        />
+                        <div className="relative">
+                            <Input
+                                id="password"
+                                type={isVisiblePassword ? "text" : "password"}
+                                required
+                                tabIndex={2}
+                                autoComplete="current-password"
+                                value={data.password}
+                                onChange={(e) => setData('password', e.target.value)}
+                                placeholder="Password"
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setIsVisiblePassword(!isVisiblePassword)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2"
+                            >
+                                {isVisiblePassword ? (
+                                    <EyeOff className="h-4 w-4 text-gray-500" />
+                                ) : (
+                                    <Eye className="h-4 w-4 text-gray-500" />
+                                )}
+                            </button>
+                        </div>
                         <InputError message={errors.password} />
-                    </div>
-
-                    <div className="flex items-center space-x-3">
-                        <Checkbox
-                            id="remember"
-                            name="remember"
-                            checked={data.remember}
-                            onClick={() => setData('remember', !data.remember)}
-                            tabIndex={3}
-                        />
-                        <Label htmlFor="remember">Remember me</Label>
                     </div>
 
                     <Button type="submit" className="mt-4 w-full" tabIndex={4} disabled={processing}>
